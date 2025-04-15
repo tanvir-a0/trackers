@@ -95,6 +95,6 @@ Bug reports are vital for continued improvement. When reporting an issue, please
 
 ## License
 
-By contributing to RF-DETR, you agree that your contributions will be licensed under the Apache 2.0 License as specified in our [LICENSE](/LICENSE) file.
+By contributing to Trackers, you agree that your contributions will be licensed under the Apache 2.0 License as specified in our [LICENSE](/LICENSE) file.
 
 Thank you for helping us build a reliable, open-source tracking library. We’re excited to collaborate with you!
