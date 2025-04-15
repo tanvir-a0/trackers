@@ -167,7 +167,9 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         distance_metric: str = "cosine",
     ):
         if feature_extractor is None:
-            self.feature_extractor = DeepSORTFeatureExtractor(device=device)
+            self.feature_extractor = DeepSORTFeatureExtractor(
+                model_or_checkpoint_path=None, device=device
+            )
         elif isinstance(feature_extractor, str):
             self.feature_extractor = DeepSORTFeatureExtractor(
                 model_or_checkpoint_path=feature_extractor,

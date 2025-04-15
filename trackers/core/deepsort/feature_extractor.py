@@ -50,7 +50,7 @@ class DeepSORTFeatureExtractor:
 
     def __init__(
         self,
-        model_or_checkpoint_path: Union[str, torch.nn.Module],
+        model_or_checkpoint_path: Union[str, torch.nn.Module, None],
         device: Optional[str] = "auto",
         input_size: Tuple[int, int] = (128, 128),
     ):
@@ -105,16 +105,28 @@ class DeepSORTFeatureExtractor:
     def _initialize_model(
         self, model_or_checkpoint_path: Union[str, torch.nn.Module, None]
     ):
-        if isinstance(model_or_checkpoint_path, str):
+        if model_or_checkpoint_path is None:
+            raise ValueError(
+                "model_or_checkpoint_path cannot be None. "
+                "Please provide a valid model instance, file path, or URL."
+            )
+        elif isinstance(model_or_checkpoint_path, str):
             if validators.url(model_or_checkpoint_path):
                 checkpoint_path = FireRequests().download(model_or_checkpoint_path)[0]
                 self._load_model_from_path(checkpoint_path)
             else:
                 self._load_model_from_path(model_or_checkpoint_path)
-        else:
+        elif isinstance(model_or_checkpoint_path, torch.nn.Module):
             self.model = model_or_checkpoint_path
             self.model.to(self.device)
             self.model.eval()
+        else:
+            # This case should ideally not be reached due to type hints,
+            # but added for robustness.
+            raise TypeError(
+                "model_or_checkpoint_path must be a string (path/URL) "
+                "or a torch.nn.Module instance."
+            )
 
     def _load_model_from_path(self, model_path):
         """
