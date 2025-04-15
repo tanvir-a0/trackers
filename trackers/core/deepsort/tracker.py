@@ -164,7 +164,9 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         appearance_weight: float = 0.5,
         distance_metric: str = "cosine",
     ):
-        self.feature_extractor = self._initialize_feature_extractor(feature_extractor, device)
+        self.feature_extractor = self._initialize_feature_extractor(
+            feature_extractor, device
+        )
 
         self.lost_track_buffer = lost_track_buffer
         self.frame_rate = frame_rate
@@ -182,20 +184,20 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         )
 
         self.trackers: list[DeepSORTKalmanBoxTracker] = []
-    
+
     def _initialize_feature_extractor(
-        self, 
+        self,
         feature_extractor: Union[DeepSORTFeatureExtractor, torch.nn.Module, str],
-        device: Optional[str]
+        device: Optional[str],
     ) -> DeepSORTFeatureExtractor:
         """
         Initialize the feature extractor based on the input type.
-        
+
         Args:
-            feature_extractor: The feature extractor input, which can be a model path, 
+            feature_extractor: The feature extractor input, which can be a model path,
                                a torch module, or a DeepSORTFeatureExtractor instance.
             device: The device to run the model on.
-            
+
         Returns:
             DeepSORTFeatureExtractor: The initialized feature extractor.
         """
