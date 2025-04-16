@@ -394,3 +394,6 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         )
 
         return updated_detections
+
+    def reset(self) -> None:
+        self.trackers = []
