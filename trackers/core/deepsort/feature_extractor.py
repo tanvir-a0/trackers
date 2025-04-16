@@ -112,10 +112,15 @@ class DeepSORTFeatureExtractor:
                 self._load_model_from_path(checkpoint_path)
             else:
                 self._load_model_from_path(model_or_checkpoint_path)
-        else:
+        elif isinstance(model_or_checkpoint_path, torch.nn.Module):
             self.model = model_or_checkpoint_path
             self.model.to(self.device)
             self.model.eval()
+        else:
+            raise TypeError(
+                "model_or_checkpoint_path must be a string (path/URL) "
+                "or a torch.nn.Module instance."
+            )
 
     def _load_model_from_path(self, model_path):
         """
