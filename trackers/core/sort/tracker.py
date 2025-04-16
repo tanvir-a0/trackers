@@ -222,3 +222,4 @@ class SORTTracker(BaseTracker):
 
     def reset(self) -> None:
         self.trackers = []
+        SORTKalmanBoxTracker.count_id = 0
