@@ -35,7 +35,7 @@ pip install git+https://github.com/roboflow/trackers.git
 
 ## Quickstart
 
-With a modular design, `trackers` lets you combine object detectors from different libraries (such as `ultralytics`, `transformers`, or `mmdetection`) with the tracker of your choice. 
+With a modular design, `trackers` lets you combine object detectors from different libraries (such as `ultralytics`, `transformers`, or `mmdetection`) with the tracker of your choice.
 
 ```python
 import supervision as sv
