@@ -6,7 +6,6 @@ import timm
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
-import validators
 from firerequests import FireRequests
 
 from trackers.utils.torch_utils import parse_device_spec
@@ -106,6 +105,8 @@ class DeepSORTFeatureExtractor:
         self, model_or_checkpoint_path: Union[str, torch.nn.Module, None]
     ):
         if isinstance(model_or_checkpoint_path, str):
+            import validators
+
             if validators.url(model_or_checkpoint_path):
                 checkpoint_path = FireRequests().download(model_or_checkpoint_path)[0]
                 self._load_model_from_path(checkpoint_path)
