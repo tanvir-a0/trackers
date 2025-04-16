@@ -1,3 +1,4 @@
+[![colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing)
 [![discord](https://img.shields.io/discord/1159501506232451173?logo=discord&label=discord&labelColor=fff&color=5865f2&link=https%3A%2F%2Fdiscord.gg%2FGbfgXGJ8Bk)](https://discord.gg/GbfgXGJ8Bk)
 
 <div align="center">
@@ -56,6 +57,8 @@ sv.process_video(
     callback=callback,
 )
 ```
+
+https://github.com/user-attachments/assets/910490b3-32a0-4b7f-8b84-5b50aa83e004
 
 ## License
 
