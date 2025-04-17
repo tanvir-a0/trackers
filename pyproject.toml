@@ -41,10 +41,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+
 cpu = [
     "torch>=2.6.0",
     "torchvision>=0.21.0",
 ]
+
 cu124 = [
     "torch>=2.6.0",
     "torchvision>=0.21.0",
@@ -94,7 +96,8 @@ conflicts = [
     [
         { extra = "cpu" },
         { extra = "cu124" },
-        { extra = "rocm61" }
+        { extra = "rocm61" },
+        { extra = "rocm62" },
     ],
 ]
 
@@ -124,6 +127,12 @@ explicit = true
 name = "pytorch-rocm61"
 url = "https://download.pytorch.org/whl/rocm6.1"
 explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-rocm62"
+url = "https://download.pytorch.org/whl/rocm6.2.4"
+explicit = true
+
 
 [build-system]
 requires = ["hatchling"]
