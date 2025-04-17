@@ -30,8 +30,7 @@ jobs:
 
       - name: 🏗️ Install dependencies
         run: |
-          uv pip install -r pyproject.toml --group docs
-
+          uv pip install ".[docs,cpu]"
 
       - name: 🧪 Test Docs Build
         run: uv run mkdocs build --verbose
