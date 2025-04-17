@@ -405,3 +405,7 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         )
 
         return updated_detections
+
+    def reset(self) -> None:
+        self.trackers = []
+        DeepSORTKalmanBoxTracker.count_id = 0
