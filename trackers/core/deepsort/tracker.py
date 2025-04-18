@@ -29,10 +29,13 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         from rfdetr import RFDETRBase
         from rfdetr.util.coco_classes import COCO_CLASSES
 
-        from trackers.core.deepsort.tracker import DeepSORTTracker
+        from trackers.core.deepsort.tracker import DeepSORTFeatureExtractor, DeepSORTTracker
 
         model = RFDETRBase(device="mps")
-        tracker = DeepSORTTracker()
+        feature_extractor = DeepSORTFeatureExtractor.from_timm(
+            model_name="mobilenetv4_conv_small.e1200_r224_in1k"
+        )
+        tracker = DeepSORTTracker(feature_extractor=feature_extractor)
         box_annotator = sv.BoxAnnotator()
         label_annotator = sv.LabelAnnotator()
 
