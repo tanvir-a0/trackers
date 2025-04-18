@@ -292,7 +292,8 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         if combined_dist.size > 0:
             row_indices, col_indices = np.where(combined_dist < 1.0)
             sorted_pairs = sorted(
-                zip(row_indices, col_indices), key=lambda x: combined_dist[x[0], x[1]]
+                zip(map(int, row_indices), map(int, col_indices)),
+                key=lambda x: combined_dist[x[0], x[1]],
             )
 
             used_rows = set()
@@ -303,8 +304,10 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
                     used_cols.add(col)
                     matched_indices.append((row, col))
 
-            unmatched_trackers = unmatched_trackers - used_rows
-            unmatched_detections = unmatched_detections - used_cols
+            unmatched_trackers = unmatched_trackers - {int(row) for row in used_rows}
+            unmatched_detections = unmatched_detections - {
+                int(col) for col in used_cols
+            }
 
         return matched_indices, unmatched_trackers, unmatched_detections
 
