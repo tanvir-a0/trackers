@@ -1,9 +1,9 @@
 import logging
 import os
 import sys
-from typing import ClassVar
+from typing import Final, Optional
 
-LOG_LEVELS = {
+_LOG_LEVELS: Final[dict[str, int]] = {
     "DEBUG": logging.DEBUG,
     "INFO": logging.INFO,
     "WARNING": logging.WARNING,
@@ -11,54 +11,66 @@ LOG_LEVELS = {
     "CRITICAL": logging.CRITICAL,
 }
 
+_LOG_FILENAME: Final[str] = os.environ.get("TRACKERS_LOG_FILENAME", "trackers.log")
+_LOG_LEVEL_NAME: Final[str] = os.environ.get("TRACKERS_LOG_LEVEL", "ERROR").upper()
+_LOG_OUTPUT_TYPE: Final[str] = os.environ.get("TRACKERS_LOG_OUTPUT", "stderr").lower()
+_LOG_LEVEL: Final[int] = _LOG_LEVELS.get(_LOG_LEVEL_NAME, logging.ERROR)
+_LOG_FORMAT: Final[str] = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
 
 class LogFormatter(logging.Formatter):
-    grey = "\x1b[38;21m"
-    blue = "\x1b[34;1m"  # Brighter blue
-    yellow = "\x1b[33;1m"  # Brighter yellow
-    red = "\x1b[31;1m"  # Brighter red
-    bold_red = "\x1b[31;1m"  # Same as red for consistency
-    reset = "\x1b[0m"
+    def __init__(
+        self, fmt=None, datefmt=None, style="%", validate=True, *, defaults=None
+    ):
+        super().__init__(fmt, datefmt, style, validate, defaults=defaults)
 
-    base_format = "%(asctime)s - %(name)s - "
-    level_message_format = "%(levelname)s: %(message)s"
+        self._RESET: Final[str] = "\x1b[0m"
 
-    FORMATS: ClassVar[dict[int, str]] = {
-        logging.DEBUG: grey + base_format + level_message_format + reset,
-        logging.INFO: blue + base_format + level_message_format + reset,
-        logging.WARNING: yellow + base_format + level_message_format + reset,
-        logging.ERROR: red + base_format + level_message_format + reset,
-        logging.CRITICAL: bold_red + base_format + level_message_format + reset,
-    }
+        self._COLOURS: Final[dict[int, str]] = {
+            logging.DEBUG: "\x1b[38;21m",
+            logging.INFO: "\x1b[34;1m",
+            logging.WARNING: "\x1b[33;1m",
+            logging.ERROR: "\x1b[31;1m",
+            logging.CRITICAL: "\x1b[35;1m",
+        }
 
-    def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
+        self._BASE_FORMAT: Final[str] = "%(asctime)s - %(name)s - "
+        self._LEVEL_MSG_FORMAT: Final[str] = "%(levelname)s: %(message)s"
+
+        self._FORMATS: dict[int, str] = {
+            level: color + self._BASE_FORMAT + self._LEVEL_MSG_FORMAT + self._RESET
+            for level, color in self._COLOURS.items()
+        }
+
+    def format(self, record: logging.LogRecord) -> str:
+        """
+        Formats the log record with color based on the log level.
+        Args:
+            record (logging.LogRecord): The log record to format.
+        Returns:
+            str: The formatted log message with color.
+        """
+        log_fmt = self._FORMATS.get(record.levelno)
         formatter = logging.Formatter(log_fmt, datefmt="%Y-%m-%d %H:%M:%S")
         return formatter.format(record)
 
 
-log_filename = os.environ.get("TRACKERS_LOG_FILENAME", "trackers.log")
-log_level_name = os.environ.get("TRACKERS_LOG_LEVEL", "INFO").upper()
-log_output_type = os.environ.get("TRACKERS_LOG_OUTPUT", "stderr").lower()
-
-log_level = LOG_LEVELS.get(log_level_name, logging.INFO)
-
-if log_output_type == "file":
+if _LOG_OUTPUT_TYPE == "file":
     logging.basicConfig(
-        level=log_level,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        filename=log_filename,
+        level=_LOG_LEVEL,
+        format=_LOG_FORMAT,
+        filename=_LOG_FILENAME,
         filemode="a",
     )
 else:
     root_logger = logging.getLogger()
-    root_logger.setLevel(log_level)
+    root_logger.setLevel(_LOG_LEVEL)
     handler = logging.StreamHandler(sys.stderr)
     handler.setFormatter(LogFormatter())
     root_logger.addHandler(handler)
 
 
-def get_logger(name: str) -> logging.Logger:
+def get_logger(name: Optional[str]) -> logging.Logger:
     """
     Retrieves a logger instance with the specified name.
 

@@ -11,7 +11,7 @@ try:
 
     __all__.extend(["DeepSORTFeatureExtractor", "DeepSORTTracker"])
 except ImportError:
-    logger.info(
+    logger.warning(
         "DeepSORT dependencies not installed. DeepSORT features will not be available. "
         "Please run `pip install trackers[deepsort]` and try again."
     )
