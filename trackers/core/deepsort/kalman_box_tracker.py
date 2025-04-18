@@ -2,6 +2,7 @@ from typing import Optional, Union
 
 import numpy as np
 
+
 class DeepSORTKalmanBoxTracker:
     """
     The `DeepSORTKalmanBoxTracker` class represents the internals of a single
