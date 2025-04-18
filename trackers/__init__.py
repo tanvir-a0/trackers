@@ -9,6 +9,7 @@ try:
     __all__.extend(["DeepSORTFeatureExtractor", "DeepSORTTracker"])
 except ImportError:
     print(
-        "DeepSORT dependencies not installed. DeepSORT features will not be available."
+        "DeepSORT dependencies not installed. DeepSORT features will not be available. "
+        "Please run `pip install trackers[deepsort]` and try again."
     )
     pass
