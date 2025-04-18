@@ -22,7 +22,10 @@ class LogFormatter(logging.Formatter):
     def __init__(
         self, fmt=None, datefmt=None, style="%", validate=True, *, defaults=None
     ):
-        super().__init__(fmt, datefmt, style, validate, defaults=defaults)
+        if sys.version_info >= (3, 10):
+            super().__init__(fmt, datefmt, style, validate, defaults=defaults)
+        else:
+            super().__init__(fmt, datefmt, style, validate)
 
         self._RESET: Final[str] = "\x1b[0m"
 
