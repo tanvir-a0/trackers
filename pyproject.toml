@@ -47,14 +47,29 @@ cpu = [
     "torchvision>=0.21.0",
 ]
 
+cu126 = [
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+]
+
 cu124 = [
     "torch>=2.6.0",
     "torchvision>=0.21.0",
 ]
 
+cu118 = [
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+]
+
 rocm61 = [
-    "torch",
-    "torchvision",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+]
+
+rocm62 = [
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
 ]
 
 deepsort = [
@@ -95,7 +110,9 @@ build = [
 conflicts = [
     [
         { extra = "cpu" },
+        { extra = "cu118" },
         { extra = "cu124" },
+        { extra = "cu126" },
         { extra = "rocm61" },
         { extra = "rocm62" },
     ],
@@ -104,13 +121,19 @@ conflicts = [
 [tool.uv.sources]
 torch = [
     { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu118", extra = "cu118" },
     { index = "pytorch-cu124", extra = "cu124" },
+    { index = "pytorch-cu126", extra = "cu126" },
     { index = "pytorch-rocm61", extra = "rocm61" },
+    { index = "pytorch-rocm62", extra = "rocm62" },
 ]
 torchvision = [
     { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu118", extra = "cu118" },
     { index = "pytorch-cu124", extra = "cu124" },
+    { index = "pytorch-cu126", extra = "cu126" },
     { index = "pytorch-rocm61", extra = "rocm61" },
+    { index = "pytorch-rocm62", extra = "rocm62" },
 ]
 
 [[tool.uv.index]]
@@ -119,8 +142,18 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [[tool.uv.index]]
+name = "pytorch-cu118"
+url = "https://download.pytorch.org/whl/cu118"
+explicit = true
+
+[[tool.uv.index]]
 name = "pytorch-cu124"
 url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
 explicit = true
 
 [[tool.uv.index]]
