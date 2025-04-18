@@ -65,11 +65,13 @@ cu118 = [
 rocm61 = [
     "torch>=2.6.0",
     "torchvision>=0.21.0",
+    "pytorch-triton-rocm>=2.0.0",
 ]
 
-rocm62 = [
+rocm624 = [
     "torch>=2.6.0",
     "torchvision>=0.21.0",
+    "pytorch-triton-rocm>=2.0.0",
 ]
 
 deepsort = [
@@ -107,6 +109,7 @@ build = [
 
 
 [tool.uv]
+
 conflicts = [
     [
         { extra = "cpu" },
@@ -114,7 +117,7 @@ conflicts = [
         { extra = "cu124" },
         { extra = "cu126" },
         { extra = "rocm61" },
-        { extra = "rocm62" },
+        { extra = "rocm624" },
     ],
 ]
 
@@ -125,7 +128,7 @@ torch = [
     { index = "pytorch-cu124", extra = "cu124" },
     { index = "pytorch-cu126", extra = "cu126" },
     { index = "pytorch-rocm61", extra = "rocm61" },
-    { index = "pytorch-rocm62", extra = "rocm62" },
+    { index = "pytorch-rocm624", extra = "rocm624" },
 ]
 torchvision = [
     { index = "pytorch-cpu", extra = "cpu" },
@@ -133,7 +136,12 @@ torchvision = [
     { index = "pytorch-cu124", extra = "cu124" },
     { index = "pytorch-cu126", extra = "cu126" },
     { index = "pytorch-rocm61", extra = "rocm61" },
-    { index = "pytorch-rocm62", extra = "rocm62" },
+    { index = "pytorch-rocm624", extra = "rocm624" },
+]
+
+pytorch-triton-rocm = [
+    { index = "pytorch-rocm61", extra = "rocm61" },
+    { index = "pytorch-rocm624", extra = "rocm624" },
 ]
 
 [[tool.uv.index]]
@@ -162,7 +170,7 @@ url = "https://download.pytorch.org/whl/rocm6.1"
 explicit = true
 
 [[tool.uv.index]]
-name = "pytorch-rocm62"
+name = "pytorch-rocm624"
 url = "https://download.pytorch.org/whl/rocm6.2.4"
 explicit = true
 
