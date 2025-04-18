@@ -124,24 +124,24 @@ conflicts = [
 [tool.uv.sources]
 torch = [
     { index = "pytorch-cpu", extra = "cpu" },
-    { index = "pytorch-cu118", extra = "cu118" },
-    { index = "pytorch-cu124", extra = "cu124" },
-    { index = "pytorch-cu126", extra = "cu126" },
-    { index = "pytorch-rocm61", extra = "rocm61" },
-    { index = "pytorch-rocm624", extra = "rocm624" },
+    { index = "pytorch-cu118", extra = "cu118", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-cu124", extra = "cu124", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-cu126", extra = "cu126", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-rocm61", extra = "rocm61", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-rocm624", extra = "rocm624", marker = "sys_platform != 'darwin'"},
 ]
 torchvision = [
     { index = "pytorch-cpu", extra = "cpu" },
-    { index = "pytorch-cu118", extra = "cu118" },
-    { index = "pytorch-cu124", extra = "cu124" },
-    { index = "pytorch-cu126", extra = "cu126" },
-    { index = "pytorch-rocm61", extra = "rocm61" },
-    { index = "pytorch-rocm624", extra = "rocm624" },
+    { index = "pytorch-cu118", extra = "cu118", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-cu124", extra = "cu124", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-cu126", extra = "cu126", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-rocm61", extra = "rocm61", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-rocm624", extra = "rocm624", marker = "sys_platform != 'darwin'"},
 ]
 
 pytorch-triton-rocm = [
-    { index = "pytorch-rocm61", extra = "rocm61" },
-    { index = "pytorch-rocm624", extra = "rocm624" },
+    { index = "pytorch-rocm61", extra = "rocm61", marker = "sys_platform != 'darwin'"},
+    { index = "pytorch-rocm624", extra = "rocm624", marker = "sys_platform != 'darwin'"},
 ]
 
 [[tool.uv.index]]
