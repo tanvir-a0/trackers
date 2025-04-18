@@ -29,7 +29,7 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         from rfdetr import RFDETRBase
         from rfdetr.util.coco_classes import COCO_CLASSES
 
-        from trackers.core.deepsort.tracker import DeepSORTFeatureExtractor, DeepSORTTracker
+        from trackers import DeepSORTFeatureExtractor, DeepSORTTracker
 
         model = RFDETRBase(device="mps")
         feature_extractor = DeepSORTFeatureExtractor.from_timm(
