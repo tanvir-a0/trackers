@@ -19,6 +19,14 @@ _LOG_FORMAT: Final[str] = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 
 class LogFormatter(logging.Formatter):
+    """
+    Custom log formatter that adds ANSI color codes to log messages based on
+    the log level for terminal output. Does not add color codes if the output
+    is redirected to a file. This formatter is designed to work with Python 3.10+.
+    It uses ANSI escape sequences to colorize log messages for better visibility
+    in terminal environments.
+    """
+
     def __init__(
         self, fmt=None, datefmt=None, style="%", validate=True, *, defaults=None
     ):
@@ -53,6 +61,7 @@ class LogFormatter(logging.Formatter):
         Returns:
             str: The formatted log message with color.
         """
+
         log_fmt = self._FORMATS.get(record.levelno)
         formatter = logging.Formatter(log_fmt, datefmt="%Y-%m-%d %H:%M:%S")
         return formatter.format(record)
