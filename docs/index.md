@@ -34,22 +34,22 @@ You can install `trackers` in a [**Python>=3.9**](https://www.python.org/) envir
         ```bash
         pip install "trackers[cu118]"
         ```
-        
+
     === "CUDA 12.4"
         ```bash
         pip install "trackers[cu124]"
         ```
-        
+
     === "CUDA 12.6"
         ```bash
         pip install "trackers[cu126]"
         ```
-        
+
     === "ROCm 6.1"
         ```bash
         pip install "trackers[rocm61]"
         ```
-        
+
     === "ROCm 6.2.4"
         ```bash
         pip install "trackers[rocm624]"

@@ -15,7 +15,7 @@ SORT (Simple Online and Realtime Tracking) is a lean, tracking-by-detection meth
     import supervision as sv
     from trackers import SORTTracker
     from ultralytics import YOLO
-    
+
     model = YOLO("yolo11m.pt")
     tracker = SORTTracker()
     annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
