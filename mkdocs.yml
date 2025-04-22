@@ -1,7 +1,43 @@
-site_name: trackers
+site_name: Trackers
+site_url: https://roboflow.github.io/trackers/develop/
+site_author: Roboflow
+site_description: A unified library for object tracking featuring clean room re-implementations of leading multi-object tracking algorithms.
+repo_name: roboflow/trackers
+repo_url: https://github.com/roboflow/trackers
+edit_uri: https://github.com/roboflow/trackers/tree/main/docs
+copyright: Roboflow 2025. All rights reserved.
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/roboflow
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/trackers
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/u/roboflow
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/roboflow
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/roboflow-ai/
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/roboflow
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/GbfgXGJ8Bk
 
 theme:
   name: material
+  icon:
+    edit: material/pencil
+  logo: assets/logo-trackers-white.svg
+  favicon: assets/logo-trackers-black.svg
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - navigation.tracking
+
   palette:
     # Palette toggle for light mode
     - scheme: default
@@ -13,13 +49,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-  features:
-    - content.code.annotate
-    - content.code.copy
-    - content.code.select
-    - content.tabs.link
-    - content.tooltips
-    - navigation.tracking
 
 plugins:
   - mkdocstrings
@@ -51,10 +80,7 @@ markdown_extensions:
   - md_in_html
 
 nav:
-  - Home: 'index.md'
+  - Home: index.md
   - Trackers:
-    - SORTTracker: 'trackers/core/sort_tracker.md'
-  - Utils:
-    - sort_utils: 'trackers/utils/sort_utils.md'
-
-repo_url: https://github.com/roboflow/trackers
+    - SORT: trackers/core/sort/tracker.md
+    - DeepSORT: trackers/core/deepsort/tracker.md
