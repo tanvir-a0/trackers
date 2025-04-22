@@ -26,6 +26,7 @@ extra:
 
 theme:
   name: material
+  custom_dir: docs/overrides/
   icon:
     edit: material/pencil
   logo: assets/logo-trackers-white.svg
@@ -37,47 +38,47 @@ theme:
     - content.tabs.link
     - content.tooltips
     - navigation.tracking
+    - navigation.expand
 
   palette:
     # Palette toggle for light mode
-    - scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
-    - scheme: slate
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
 
-plugins:
-  - mkdocstrings
-  - search
-  - minify
-  - glightbox
-  - mkdocs-jupyter:
-      include_source: True
+extra_css:
+  - stylesheets/style.css
 
 markdown_extensions:
-  - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.arithmatex:
-      generic: true
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
-  - admonition
-  - attr_list
-  - md_in_html
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_symbol_type_toc: true
+            show_category_heading: true
+            show_source: false
+            docstring_style: google
 
 nav:
   - Home: index.md

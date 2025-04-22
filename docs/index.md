@@ -1,3 +1,11 @@
-# GTR
+<div align="center">
+  <img src="assets/logo-trackers-violet.svg" alt="Trackers Logo" width="200" height="200">
+</div>
 
-A unified library for object tracking
+# Installation
+
+TODO
+
+# Quickstart
+
+TODO

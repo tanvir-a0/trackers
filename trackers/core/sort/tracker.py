@@ -12,51 +12,7 @@ from trackers.utils.sort_utils import (
 
 class SORTTracker(BaseTracker):
     """
-    `SORTTracker` is an implementation of the
-    [SORT (Simple Online and Realtime Tracking)](https://arxiv.org/pdf/1602.00763)
-    algorithm for object tracking in videos.
-
-    ??? example
-        ```python
-        import numpy as np
-        import supervision as sv
-        from rfdetr import RFDETRBase
-        from rfdetr.util.coco_classes import COCO_CLASSES
-        from trackers import SORTTracker
-
-
-        model = RFDETRBase(device="mps")
-        tracker = SORTTracker()
-        box_annotator = sv.BoxAnnotator()
-        label_annotator = sv.LabelAnnotator()
-
-
-        def callback(frame: np.ndarray, _: int):
-            detections = model.predict(frame, threshold=0.5)
-            detections = tracker.update(detections)
-
-            labels = [
-                f"#{tracker_id} {COCO_CLASSES[class_id]} {confidence:.2f}"
-                for tracker_id, class_id, confidence in zip(
-                    detections.tracker_id, detections.class_id, detections.confidence
-                )
-            ]
-
-            annotated_image = frame.copy()
-            annotated_image = box_annotator.annotate(annotated_image, detections)
-            annotated_image = label_annotator.annotate(
-                annotated_image, detections, labels
-            )
-
-            return annotated_image
-
-
-        sv.process_video(
-            source_path="data/traffic_video.mp4",
-            target_path="data/out.mp4",
-            callback=callback,
-        )
-        ```
+    TODO
 
     Attributes:
         trackers (list[SORTKalmanBoxTracker]): List of SORTKalmanBoxTracker objects.
@@ -174,8 +130,7 @@ class SORTTracker(BaseTracker):
 
     def update(self, detections: sv.Detections) -> sv.Detections:
         """
-        Updates the state of tracked objects with the newly received detections
-        and returns the updated `sv.Detections` (including tracking IDs).
+        TODO
 
         Args:
             detections (sv.Detections): The latest set of object detections.
