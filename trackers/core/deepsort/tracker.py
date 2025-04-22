@@ -16,51 +16,36 @@ from trackers.utils.sort_utils import (
 
 
 class DeepSORTTracker(BaseTrackerWithFeatures):
-    """
-    TODO
+    """Implements DeepSORT (Deep Simple Online and Realtime Tracking).
 
-    Attributes:
-        feature_extractor (DeepSORTFeatureExtractor): Model to extract appearance
-            features.
-        appearance_threshold (float): Cosine distance threshold for appearance
-            matching.
-        appearance_weight (float): Weight for appearance distance in the
-            combined distance.
+    DeepSORT extends SORT by integrating appearance information using a deep
+    learning model, improving tracking through occlusions and reducing ID switches.
+    It combines motion (Kalman filter) and appearance cues for data association.
 
     Args:
         feature_extractor (Union[DeepSORTFeatureExtractor, torch.nn.Module, str]):
-            A feature extractor model checkpoint URL, model checkpoint path, or model
-            instance or an instance of `DeepSORTFeatureExtractor` to extract
-            appearance features. By default, the a default model checkpoint is downloaded
+            A feature extractor model checkpoint URL, model checkpoint path, a model
+            instance, or an instance of `DeepSORTFeatureExtractor` to extract
+            appearance features. By default, a default model checkpoint is downloaded
             and loaded.
-        device (Optional[str]): Device to run the model on.
+        device (Optional[str]): Device to run the feature extraction model on (e.g., 'cpu', 'cuda').
         lost_track_buffer (int): Number of frames to buffer when a track is lost.
-            Increasing lost_track_buffer enhances occlusion handling, significantly
-            improving tracking through occlusions, but may increase the possibility
-            of ID switching for objects with similar appearance.
+            Enhances occlusion handling but may increase ID switches for similar objects.
         frame_rate (float): Frame rate of the video (frames per second).
             Used to calculate the maximum time a track can be lost.
         track_activation_threshold (float): Detection confidence threshold
-            for track activation. Only detections with confidence above this
-            threshold will create new tracks. Increasing this threshold
-            reduces false positives but may miss real objects with low confidence.
-        minimum_consecutive_frames (int): Number of consecutive frames that an object
-            must be tracked before it is considered a 'valid' track. Increasing
-            `minimum_consecutive_frames` prevents the creation of accidental tracks
-            from false detection or double detection, but risks missing shorter
-            tracks. Before the tracker is considered valid, it will be assigned
-            `-1` as its `tracker_id`.
-        minimum_iou_threshold (float): IOU threshold for associating detections to
-            existing tracks.
+            for track activation. Higher values reduce false positives but might miss objects.
+        minimum_consecutive_frames (int): Number of consecutive frames an object
+            must be tracked to be considered 'valid'. Prevents spurious tracks but
+            may miss short tracks.
+        minimum_iou_threshold (float): IOU threshold for gating in the matching cascade.
         appearance_threshold (float): Cosine distance threshold for appearance matching.
-        appearance_weight (float): Weight for appearance distance (0-1).
-        distance_metric (str): Distance metric to use for matching. Can be one of
-            'braycurtis', 'canberra', 'chebyshev', 'cityblock', 'correlation',
-            'cosine', 'dice', 'euclidean', 'hamming', 'jaccard', 'jensenshannon',
-            'kulczynski1', 'mahalanobis', 'matching', 'minkowski',
-            'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener',
-            'sokalsneath', 'sqeuclidean', 'yule'.
-    """  # noqa: E501
+            Only matches below this threshold are considered valid.
+        appearance_weight (float): Weight (0-1) balancing motion (IOU) and appearance
+            distance in the combined matching cost.
+        distance_metric (str): Distance metric for appearance features (e.g., 'cosine',
+            'euclidean'). See `scipy.spatial.distance.cdist`.
+    """
 
     def __init__(
         self,
@@ -264,16 +249,22 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         )
 
     def update(self, detections: sv.Detections, frame: np.ndarray) -> sv.Detections:
-        """
-        TODO
+        """Updates the tracker state with new detections and appearance features.
+
+        Extracts appearance features, performs Kalman filter prediction, calculates
+        IOU and appearance distance matrices, associates detections with tracks using
+        a combined metric, updates matched tracks (position and appearance), and
+        initializes new tracks for unmatched high-confidence detections.
 
         Args:
             detections (sv.Detections): The latest set of object detections.
-            frame (np.ndarray): The current video frame.
+            frame (np.ndarray): The current video frame, used for extracting
+                appearance features from detections.
 
         Returns:
-            sv.Detections: A copy of the detections with `tracker_id` set
-                for each detection that is tracked.
+            sv.Detections: A copy of the input detections, augmented with assigned
+                `tracker_id` for each successfully tracked object. Detections not
+                associated with a track will not have a `tracker_id`.
         """
         if len(self.trackers) == 0 and len(detections) == 0:
             return detections
@@ -323,5 +314,9 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         return updated_detections
 
     def reset(self) -> None:
+        """Resets the tracker's internal state.
+
+        Clears all active tracks and resets the track ID counter.
+        """
         self.trackers = []
         DeepSORTKalmanBoxTracker.count_id = 0

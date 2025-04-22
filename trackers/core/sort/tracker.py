@@ -11,11 +11,11 @@ from trackers.utils.sort_utils import (
 
 
 class SORTTracker(BaseTracker):
-    """
-    TODO
+    """Implements SORT (Simple Online and Realtime Tracking).
 
-    Attributes:
-        trackers (list[SORTKalmanBoxTracker]): List of SORTKalmanBoxTracker objects.
+    SORT is a pragmatic approach to multiple object tracking with a focus on
+    simplicity and speed. It uses a Kalman filter for motion prediction and the
+    Hungarian algorithm or simple IOU matching for data association.
 
     Args:
         lost_track_buffer (int): Number of frames to buffer when a track is lost.
@@ -129,15 +129,19 @@ class SORTTracker(BaseTracker):
         )
 
     def update(self, detections: sv.Detections) -> sv.Detections:
-        """
-        TODO
+        """Updates the tracker state with new detections.
+
+        Performs Kalman filter prediction, associates detections with existing
+        trackers based on IOU, updates matched trackers, and initializes new
+        trackers for unmatched high-confidence detections.
 
         Args:
-            detections (sv.Detections): The latest set of object detections.
+            detections (sv.Detections): The latest set of object detections from a frame.
 
         Returns:
-            sv.Detections: A copy of the detections with `tracker_id` set
-                for each detection that is tracked.
+            sv.Detections: A copy of the input detections, augmented with assigned
+                `tracker_id` for each successfully tracked object. Detections not
+                associated with a track will not have a `tracker_id`.
         """
         if len(self.trackers) == 0 and len(detections) == 0:
             return detections
@@ -176,5 +180,9 @@ class SORTTracker(BaseTracker):
         return updated_detections
 
     def reset(self) -> None:
+        """Resets the tracker's internal state.
+
+        Clears all active tracks and resets the track ID counter.
+        """
         self.trackers = []
         SORTKalmanBoxTracker.count_id = 0

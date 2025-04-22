@@ -62,23 +62,48 @@ extra_css:
   - stylesheets/style.css
 
 markdown_extensions:
+  # Code syntax highlighting with line numbers and anchors
   - pymdownx.highlight:
+      # Adds anchors to line numbers
       anchor_linenums: true
+      # Wraps lines in span elements
       line_spans: __span
+      # Adds language class to code blocks
       pygments_lang_class: true
+  # Enables inline code highlighting
   - pymdownx.inlinehilite
+  # Allows including content from other files
   - pymdownx.snippets
+  # Enables nested code blocks and custom fences
   - pymdownx.superfences
+  # Adds support for callouts/notes/warnings
+  - admonition
+  # Enables collapsible blocks (expandable content)
+  - pymdownx.details
+  # Creates tabbed content (like installation examples)
+  - pymdownx.tabbed:
+      # Uses an alternative styling for tabs
+      alternate_style: true
 
 plugins:
   - mkdocstrings:
       handlers:
         python:
           options:
+            # Controls whether to show symbol types in the table of contents
             show_symbol_type_toc: true
-            show_category_heading: true
+            # Controls whether to show symbol type in the heading
+            show_symbol_type_heading: true
+            # Controls whether to show the root heading (module/class name)
+            show_root_heading: true
+            # Controls whether to show the source code
             show_source: false
+            # Specifies the docstring style to parse (Google style in this case)
             docstring_style: google
+            # Controls the order of members (by source order in this case)
+            members_order: source
+            # Controls whether to sort members alphabetically
+            sort_members: false
 
 nav:
   - Home: index.md
