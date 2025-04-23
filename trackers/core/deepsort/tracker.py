@@ -270,6 +270,7 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
                 associated with a track will not have a `tracker_id`.
         """
         if len(self.trackers) == 0 and len(detections) == 0:
+            detections.tracker_id = np.array([], dtype=int)
             return detections
 
         # Convert detections to a (N x 4) array (x1, y1, x2, y2)
