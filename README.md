@@ -14,16 +14,6 @@
 
 `trackers` is a unified library offering clean room re-implementations of leading multi-object tracking algorithms. Its modular design allows you to easily swap trackers and integrate them with object detectors from various libraries like `ultralytics`, `inference`, `mmdetection`, or `transformers`.
 
-| Tracker    | Paper                                                                                                          | MOTA | Year | Status | Colab                                                                     |
-| :--------- |:---------------------------------------------------------------------------------------------------------------|:-----|:-----|:-------|:--------------------------------------------------------------------------|
-| SORT       | [![arXiv](https://img.shields.io/badge/arXiv-1602.00763-b31b1b.svg)](https://arxiv.org/abs/1602.00763)         | 74.6 | 2016 | ✅     | [![colab](https://colab.research.google.com/assets/colab-badge.svg)](...) |
-| DeepSORT   | [![arXiv](https://img.shields.io/badge/arXiv-1703.07402-b31b1b.svg)](https://arxiv.org/abs/1703.07402)         | 75.4 | 2017 | ✅     | [![colab](https://colab.research.google.com/assets/colab-badge.svg)](...) |
-| ByteTrack  | [![arXiv](https://img.shields.io/badge/arXiv-2110.06864-b31b1b.svg)](https://arxiv.org/abs/2110.06864)         | 77.8 | 2021 |        |                                                                           |
-| OC-SORT    | [![arXiv](https://img.shields.io/badge/arXiv-2203.14360-b31b1b.svg)](https://arxiv.org/abs/2203.14360)         | 75.9 | 2022 |        |                                                                           |
-| BoT-SORT   | [![arXiv](https://img.shields.io/badge/arXiv-2206.14651-b31b1b.svg)](https://arxiv.org/abs/2206.14651)         | 77.8 | 2022 |        |                                                                           |
-
-We are actively working on adding more trackers (ByteTrack, OC-SORT, BoT-SORT) and plan to introduce tracker fine-tuning and enhanced Re-Identification (ReID) capabilities soon.
-
 ## Installation
 
 Pip install the `trackers` package in a [**Python>=3.9**](https://www.python.org/) environment.
