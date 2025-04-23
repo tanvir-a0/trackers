@@ -142,7 +142,8 @@ class SORTTracker(BaseTracker):
             sv.Detections: A copy of the input detections, augmented with assigned
                 `tracker_id` for each successfully tracked object. Detections not
                 associated with a track will not have a `tracker_id`.
-        """
+        """  # noqa: E501
+
         if len(self.trackers) == 0 and len(detections) == 0:
             return detections
 

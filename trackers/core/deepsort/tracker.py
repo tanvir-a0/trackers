@@ -28,13 +28,15 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
             instance, or an instance of `DeepSORTFeatureExtractor` to extract
             appearance features. By default, a default model checkpoint is downloaded
             and loaded.
-        device (Optional[str]): Device to run the feature extraction model on (e.g., 'cpu', 'cuda').
+        device (Optional[str]): Device to run the feature extraction 
+            model on (e.g., 'cpu', 'cuda').
         lost_track_buffer (int): Number of frames to buffer when a track is lost.
             Enhances occlusion handling but may increase ID switches for similar objects.
         frame_rate (float): Frame rate of the video (frames per second).
             Used to calculate the maximum time a track can be lost.
         track_activation_threshold (float): Detection confidence threshold
-            for track activation. Higher values reduce false positives but might miss objects.
+            for track activation. Higher values reduce false positives 
+            but might miss objects.
         minimum_consecutive_frames (int): Number of consecutive frames an object
             must be tracked to be considered 'valid'. Prevents spurious tracks but
             may miss short tracks.
@@ -45,7 +47,7 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
             distance in the combined matching cost.
         distance_metric (str): Distance metric for appearance features (e.g., 'cosine',
             'euclidean'). See `scipy.spatial.distance.cdist`.
-    """
+    """  # noqa: E501
 
     def __init__(
         self,
@@ -91,7 +93,7 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
 
         Args:
             feature_extractor: The feature extractor input, which can be a model path,
-                               a torch module, or a DeepSORTFeatureExtractor instance.
+                a torch module, or a DeepSORTFeatureExtractor instance.
             device: The device to run the model on.
 
         Returns:
@@ -118,6 +120,7 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
         Returns:
             np.ndarray: Appearance distance matrix.
         """
+
         if len(self.trackers) == 0 or len(detection_features) == 0:
             return np.zeros((len(self.trackers), len(detection_features)))
 
