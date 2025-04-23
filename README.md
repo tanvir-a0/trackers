@@ -1,16 +1,28 @@
-[![colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing)
-[![discord](https://img.shields.io/discord/1159501506232451173?logo=discord&label=discord&labelColor=fff&color=5865f2&link=https%3A%2F%2Fdiscord.gg%2FGbfgXGJ8Bk)](https://discord.gg/GbfgXGJ8Bk)
-
 <div align="center">
     <h1 align="center">trackers</h1>
-    <img width="200" src="https://github.com/user-attachments/assets/3fce0d37-dc1a-4b1f-b9ec-ca6ccf3a33f1" alt="make sense logo">
-    </br>
-    <p>coming: when it's ready...</p>
+    <img width="200" src="docs/assets/logo-trackers-violet.svg" alt="trackers logo">
+
+[![version](https://badge.fury.io/py/trackers.svg)](https://badge.fury.io/py/trackers)
+[![license](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/roboflow/trackers/blob/main/LICENSE.md)
+[![python-version](https://img.shields.io/pypi/pyversions/trackers)](https://badge.fury.io/py/trackers)
+
+[![colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing)
+[![discord](https://img.shields.io/discord/1159501506232451173?logo=discord&label=discord&labelColor=fff&color=5865f2&link=https%3A%2F%2Fdiscord.gg%2FGbfgXGJ8Bk)](https://discord.gg/GbfgXGJ8Bk)
 </div>
 
 ## Hello
 
-A unified library for object tracking featuring clean room re-implementations of leading multi-object tracking algorithms.
+`trackers` is a unified library offering clean room re-implementations of leading multi-object tracking algorithms. Its modular design allows you to easily swap trackers and integrate them with object detectors from various libraries like `ultralytics`, `inference`, `mmdetection`, or `transformers`.
+
+| Tracker    | Paper                                                                                                          | MOTA | Year | Status | Colab                                                                     |
+| :--------- |:---------------------------------------------------------------------------------------------------------------|:-----|:-----|:-------|:--------------------------------------------------------------------------|
+| SORT       | [![arXiv](https://img.shields.io/badge/arXiv-1602.00763-b31b1b.svg)](https://arxiv.org/abs/1602.00763)         | 74.6 | 2016 | ✅     | [![colab](https://colab.research.google.com/assets/colab-badge.svg)](...) |
+| DeepSORT   | [![arXiv](https://img.shields.io/badge/arXiv-1703.07402-b31b1b.svg)](https://arxiv.org/abs/1703.07402)         | 75.4 | 2017 | ✅     | [![colab](https://colab.research.google.com/assets/colab-badge.svg)](...) |
+| ByteTrack  | [![arXiv](https://img.shields.io/badge/arXiv-2110.06864-b31b1b.svg)](https://arxiv.org/abs/2110.06864)         | 77.8 | 2021 |        |                                                                           |
+| OC-SORT    | [![arXiv](https://img.shields.io/badge/arXiv-2203.14360-b31b1b.svg)](https://arxiv.org/abs/2203.14360)         | 75.9 | 2022 |        |                                                                           |
+| BoT-SORT   | [![arXiv](https://img.shields.io/badge/arXiv-2206.14651-b31b1b.svg)](https://arxiv.org/abs/2206.14651)         | 77.8 | 2022 |        |                                                                           |
+
+We are actively working on adding more trackers (ByteTrack, OC-SORT, BoT-SORT) and plan to introduce tracker fine-tuning and enhanced Re-Identification (ReID) capabilities soon.
 
 ## Installation
 
@@ -35,25 +47,48 @@ pip install git+https://github.com/roboflow/trackers.git
 
 ## Quickstart
 
-With a modular design, `trackers` lets you combine object detectors from different libraries (such as `ultralytics`, `transformers`, or `mmdetection`) with the tracker of your choice.
+With a modular design, `trackers` lets you combine object detectors from different libraries (such as `ultralytics`, `inference`, `mmdetection`, or `transformers`) with the tracker of your choice. Here's how you can use `SORTTracker` with various detectors:
 
 ```python
 import supervision as sv
-from rfdetr import RFDETRBase
 from trackers import SORTTracker
+from inference import get_model
 
-model = RFDETRBase()
 tracker = SORTTracker()
+model = get_model(model_id="yolov11m-640")
 annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
 
 def callback(frame, _):
-    detections = model.predict(frame)
+    result = model.infer(frame)[0]
+    detections = sv.Detections.from_inference(result)
     detections = tracker.update(detections)
-    return annotator.annotate(frame, detections, detections.tracker_id)
+    return annotator.annotate(frame, detections, labels=detections.tracker_id)
 
 sv.process_video(
-    source_path=<SOURCE_VIDEO_PATH>,
-    target_path=<TARGET_VIDEO_PATH>,
+    source_path="input.mp4",
+    target_path="output.mp4",
+    callback=callback,
+)
+```
+
+```python
+import supervision as sv
+from trackers import SORTTracker
+from ultralytics import YOLO
+
+tracker = SORTTracker()
+model = YOLO("yolo11m.pt")
+annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
+
+def callback(frame, _):
+    result = model(frame)[0]
+    detections = sv.Detections.from_ultralytics(result)
+    detections = tracker.update(detections)
+    return annotator.annotate(frame, detections, labels=detections.tracker_id)
+
+sv.process_video(
+    source_path="input.mp4",
+    target_path="output.mp4",
     callback=callback,
 )
 ```
