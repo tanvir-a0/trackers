@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # DeepSORT
 
 [![arXiv](https://img.shields.io/badge/arXiv-1703.07402-b31b1b.svg)](https://arxiv.org/abs/1703.07402)
