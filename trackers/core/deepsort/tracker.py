@@ -28,14 +28,14 @@ class DeepSORTTracker(BaseTrackerWithFeatures):
             instance, or an instance of `DeepSORTFeatureExtractor` to extract
             appearance features. By default, a default model checkpoint is downloaded
             and loaded.
-        device (Optional[str]): Device to run the feature extraction 
+        device (Optional[str]): Device to run the feature extraction
             model on (e.g., 'cpu', 'cuda').
         lost_track_buffer (int): Number of frames to buffer when a track is lost.
             Enhances occlusion handling but may increase ID switches for similar objects.
         frame_rate (float): Frame rate of the video (frames per second).
             Used to calculate the maximum time a track can be lost.
         track_activation_threshold (float): Detection confidence threshold
-            for track activation. Higher values reduce false positives 
+            for track activation. Higher values reduce false positives
             but might miss objects.
         minimum_consecutive_frames (int): Number of consecutive frames an object
             must be tracked to be considered 'valid'. Prevents spurious tracks but
