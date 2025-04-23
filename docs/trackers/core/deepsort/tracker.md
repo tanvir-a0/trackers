@@ -110,19 +110,19 @@ DeepSORT extends the original [SORT](../sort/tracker.md) algorithm by integratin
         inputs = image_processor(images=frame, return_tensors="pt")
         with torch.no_grad():
             outputs = model(**inputs)
-        
+
         h, w, _ = frame.shape
         results = image_processor.post_process_object_detection(
-            outputs, 
-            target_sizes=torch.tensor([(h, w)]), 
+            outputs,
+            target_sizes=torch.tensor([(h, w)]),
             threshold=0.5
         )[0]
-        
+
         detections = sv.Detections.from_transformers(
             transformers_results=results,
             id2label=model.config.id2label
         )
-        
+
         detections = tracker.update(detections, frame)
         return annotator.annotate(frame, detections, labels=detections.tracker_id)
 
