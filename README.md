@@ -1,6 +1,6 @@
 <div align="center">
     <h1 align="center">trackers</h1>
-    <img width="200" src="docs/assets/logo-trackers-violet.svg" alt="trackers logo">
+    <img width="200" src="https://raw.githubusercontent.com/roboflow/trackers/refs/heads/main/docs/assets/logo-trackers-violet.svg" alt="trackers logo">
 
 [![version](https://badge.fury.io/py/trackers.svg)](https://badge.fury.io/py/trackers)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/roboflow/trackers/blob/main/LICENSE.md)
