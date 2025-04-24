@@ -5,7 +5,7 @@ comments: true
 # DeepSORT
 
 [![arXiv](https://img.shields.io/badge/arXiv-1703.07402-b31b1b.svg)](https://arxiv.org/abs/1703.07402)
-[![colab](https://colab.research.google.com/assets/colab-badge.svg)](...)
+[![colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/roboflow-ai/notebooks/blob/main/notebooks/how-to-track-objects-with-deepsort-tracker.ipynb)
 
 ## Overview
 
@@ -41,7 +41,7 @@ DeepSORT extends the original [SORT](../sort/tracker.md) algorithm by integratin
     )
     ```
 
-=== "RF-DETR"
+=== "rf-detr"
 
     ```python hl_lines="2 5-8 14"
     import supervision as sv
@@ -106,17 +106,17 @@ DeepSORT extends the original [SORT](../sort/tracker.md) algorithm by integratin
         model_name="mobilenetv4_conv_small.e1200_r224_in1k"
     )
     tracker = DeepSORTTracker(feature_extractor=feature_extractor)
-    image_processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
+    processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
     model = RTDetrV2ForObjectDetection.from_pretrained("PekingU/rtdetr_v2_r18vd")
     annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
 
     def callback(frame, _):
-        inputs = image_processor(images=frame, return_tensors="pt")
+        inputs = processor(images=frame, return_tensors="pt")
         with torch.no_grad():
             outputs = model(**inputs)
 
         h, w, _ = frame.shape
-        results = image_processor.post_process_object_detection(
+        results = processor.post_process_object_detection(
             outputs,
             target_sizes=torch.tensor([(h, w)]),
             threshold=0.5
@@ -138,5 +138,37 @@ DeepSORT extends the original [SORT](../sort/tracker.md) algorithm by integratin
     ```
 
 ## Usage
+
+!!! example "Install DeepSORT"
+
+    === "CPU"
+        ```bash
+        pip install "trackers[deepsort,cpu]"
+        ```
+
+    === "CUDA 11.8"
+        ```bash
+        pip install "trackers[deepsort,cu118]"
+        ```
+
+    === "CUDA 12.4"
+        ```bash
+        pip install "trackers[deepsort,cu124]"
+        ```
+
+    === "CUDA 12.6"
+        ```bash
+        pip install "trackers[deepsort,cu126]"
+        ```
+
+    === "ROCm 6.1"
+        ```bash
+        pip install "trackers[deepsort,rocm61]"
+        ```
+
+    === "ROCm 6.2.4"
+        ```bash
+        pip install "trackers[deepsort,rocm624]"
+        ```
 
 ::: trackers.core.deepsort.tracker.DeepSORTTracker
