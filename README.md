@@ -71,6 +71,8 @@
   </table>
 </div>
 
+https://github.com/user-attachments/assets/eef9b00a-cfe4-40f7-a495-954550e3ef1f
+
 ## Installation
 
 Pip install the `trackers` package in a [**Python>=3.9**](https://www.python.org/) environment.
@@ -80,7 +82,7 @@ pip install trackers
 ```
 
 <details>
-<summary>Install from source</summary>
+<summary>install from source</summary>
 
 <br>
 
@@ -118,6 +120,11 @@ sv.process_video(
 )
 ```
 
+<details>
+<summary>run with `ultralytics`</summary>
+
+<br>
+
 ```python
 import supervision as sv
 from trackers import SORTTracker
@@ -140,7 +147,52 @@ sv.process_video(
 )
 ```
 
-https://github.com/user-attachments/assets/910490b3-32a0-4b7f-8b84-5b50aa83e004
+</details>
+
+<details>
+<summary>run with `transformers`</summary>
+
+<br>
+
+```python
+import torch
+import supervision as sv
+from trackers import SORTTracker
+from transformers import RTDetrV2ForObjectDetection, RTDetrImageProcessor
+
+tracker = SORTTracker()
+image_processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
+model = RTDetrV2ForObjectDetection.from_pretrained("PekingU/rtdetr_v2_r18vd")
+annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
+
+def callback(frame, _):
+    inputs = image_processor(images=frame, return_tensors="pt")
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    h, w, _ = frame.shape
+    results = image_processor.post_process_object_detection(
+        outputs,
+        target_sizes=torch.tensor([(h, w)]),
+        threshold=0.5
+    )[0]
+
+    detections = sv.Detections.from_transformers(
+        transformers_results=results,
+        id2label=model.config.id2label
+    )
+
+    detections = tracker.update(detections)
+    return annotator.annotate(frame, detections, labels=detections.tracker_id)
+
+sv.process_video(
+    source_path="input.mp4",
+    target_path="output.mp4",
+    callback=callback,
+)
+```
+
+</details>
 
 ## License
 
