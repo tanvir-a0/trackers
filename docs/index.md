@@ -37,7 +37,7 @@ comments: true
         <td>74.6</td>
         <td>2016</td>
         <td>✅</td>
-        <td><a href="https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="colab"></a></td>
+        <td><a href="https://colab.research.google.com/github/roboflow-ai/notebooks/blob/main/notebooks/how-to-track-objects-with-sort-tracker.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="colab"></a></td>
       </tr>
       <tr>
         <td>DeepSORT</td>
@@ -45,7 +45,7 @@ comments: true
         <td>75.4</td>
         <td>2017</td>
         <td>✅</td>
-        <td><a href="https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="colab"></a></td>
+        <td><a href="https://colab.research.google.com/github/roboflow-ai/notebooks/blob/main/notebooks/how-to-track-objects-with-deepsort-tracker.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="colab"></a></td>
       </tr>
       <tr>
         <td>ByteTrack</td>
