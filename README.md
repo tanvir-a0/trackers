@@ -14,6 +14,63 @@
 
 `trackers` is a unified library offering clean room re-implementations of leading multi-object tracking algorithms. Its modular design allows you to easily swap trackers and integrate them with object detectors from various libraries like `ultralytics`, `inference`, `mmdetection`, or `transformers`.
 
+<div align="center">
+  <table>
+    <thead>
+      <tr>
+        <th>Tracker</th>
+        <th>Paper</th>
+        <th>MOTA</th>
+        <th>Year</th>
+        <th>Status</th>
+        <th>Colab</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SORT</td>
+        <td><a href="https://arxiv.org/abs/1602.00763"><img src="https://img.shields.io/badge/arXiv-1602.00763-b31b1b.svg" alt="arXiv"></a></td>
+        <td>74.6</td>
+        <td>2016</td>
+        <td>✅</td>
+        <td><a href="https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="colab"></a></td>
+      </tr>
+      <tr>
+        <td>DeepSORT</td>
+        <td><a href="https://arxiv.org/abs/1703.07402"><img src="https://img.shields.io/badge/arXiv-1703.07402-b31b1b.svg" alt="arXiv"></a></td>
+        <td>75.4</td>
+        <td>2017</td>
+        <td>✅</td>
+        <td><a href="https://colab.research.google.com/drive/1VT_FYIe3kborhWrfKKBqqfR0EjQeQNiO?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="colab"></a></td>
+      </tr>
+      <tr>
+        <td>ByteTrack</td>
+        <td><a href="https://arxiv.org/abs/2110.06864"><img src="https://img.shields.io/badge/arXiv-2110.06864-b31b1b.svg" alt="arXiv"></a></td>
+        <td>77.8</td>
+        <td>2021</td>
+        <td>🚧</td>
+        <td>🚧</td>
+      </tr>
+      <tr>
+        <td>OC-SORT</td>
+        <td><a href="https://arxiv.org/abs/2203.14360"><img src="https://img.shields.io/badge/arXiv-2203.14360-b31b1b.svg" alt="arXiv"></a></td>
+        <td>75.9</td>
+        <td>2022</td>
+        <td>🚧</td>
+        <td>🚧</td>
+      </tr>
+      <tr>
+        <td>BoT-SORT</td>
+        <td><a href="https://arxiv.org/abs/2206.14651"><img src="https://img.shields.io/badge/arXiv-2206.14651-b31b1b.svg" alt="arXiv"></a></td>
+        <td>77.8</td>
+        <td>2022</td>
+        <td>🚧</td>
+        <td>🚧</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ## Installation
 
 Pip install the `trackers` package in a [**Python>=3.9**](https://www.python.org/) environment.
