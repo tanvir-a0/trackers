@@ -130,7 +130,7 @@ You can install `trackers` in a [**Python>=3.9**](https://www.python.org/) envir
 
 # Quickstart
 
-With a modular design, `trackers` lets you combine object detectors from different libraries (such as `ultralytics`, `inference`, `mmdetection`, or `transformers`) with the tracker of your choice. Here's how you can use `SORTTracker` with various detectors:
+With a modular design, `trackers` lets you combine object detectors from different libraries with the tracker of your choice. Here's how you can use `SORTTracker` with various detectors:
 
 === "inference"
 
@@ -156,7 +156,7 @@ With a modular design, `trackers` lets you combine object detectors from differe
     )
     ```
 
-=== "RF-DETR"
+=== "rf-detr"
 
     ```python hl_lines="2 5 11"
     import supervision as sv
@@ -212,17 +212,17 @@ With a modular design, `trackers` lets you combine object detectors from differe
     from transformers import RTDetrV2ForObjectDetection, RTDetrImageProcessor
 
     tracker = SORTTracker()
-    image_processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
+    processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
     model = RTDetrV2ForObjectDetection.from_pretrained("PekingU/rtdetr_v2_r18vd")
     annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
 
     def callback(frame, _):
-        inputs = image_processor(images=frame, return_tensors="pt")
+        inputs = processor(images=frame, return_tensors="pt")
         with torch.no_grad():
             outputs = model(**inputs)
 
         h, w, _ = frame.shape
-        results = image_processor.post_process_object_detection(
+        results = processor.post_process_object_detection(
             outputs,
             target_sizes=torch.tensor([(h, w)]),
             threshold=0.5

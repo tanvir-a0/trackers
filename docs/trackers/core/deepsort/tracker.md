@@ -41,7 +41,7 @@ DeepSORT extends the original [SORT](../sort/tracker.md) algorithm by integratin
     )
     ```
 
-=== "RF-DETR"
+=== "rf-detr"
 
     ```python hl_lines="2 5-8 14"
     import supervision as sv
@@ -106,17 +106,17 @@ DeepSORT extends the original [SORT](../sort/tracker.md) algorithm by integratin
         model_name="mobilenetv4_conv_small.e1200_r224_in1k"
     )
     tracker = DeepSORTTracker(feature_extractor=feature_extractor)
-    image_processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
+    processor = RTDetrImageProcessor.from_pretrained("PekingU/rtdetr_v2_r18vd")
     model = RTDetrV2ForObjectDetection.from_pretrained("PekingU/rtdetr_v2_r18vd")
     annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
 
     def callback(frame, _):
-        inputs = image_processor(images=frame, return_tensors="pt")
+        inputs = processor(images=frame, return_tensors="pt")
         with torch.no_grad():
             outputs = model(**inputs)
 
         h, w, _ = frame.shape
-        results = image_processor.post_process_object_detection(
+        results = processor.post_process_object_detection(
             outputs,
             target_sizes=torch.tensor([(h, w)]),
             threshold=0.5
