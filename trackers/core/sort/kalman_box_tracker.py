@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.typing import NDArray
 
 
 class SORTKalmanBoxTracker:
@@ -24,7 +25,16 @@ class SORTKalmanBoxTracker:
         bbox (np.ndarray): Initial bounding box in the form [x1, y1, x2, y2].
     """
 
-    count_id = 0
+    count_id: int = 0
+    tracker_id: int
+    number_of_successful_updates: int
+    time_since_update: int
+    state: NDArray[np.float32]
+    F: NDArray[np.float32]
+    H: NDArray[np.float32]
+    Q: NDArray[np.float32]
+    R: NDArray[np.float32]
+    P: NDArray[np.float32]
 
     @classmethod
     def get_next_tracker_id(cls) -> int:
@@ -49,10 +59,11 @@ class SORTKalmanBoxTracker:
         self.state = np.zeros((8, 1), dtype=np.float32)
 
         # Initialize state directly from the first detection
-        self.state[0] = bbox[0]
-        self.state[1] = bbox[1]
-        self.state[2] = bbox[2]
-        self.state[3] = bbox[3]
+        bbox_float = bbox.astype(np.float32)
+        self.state[0, 0] = bbox_float[0]
+        self.state[1, 0] = bbox_float[1]
+        self.state[2, 0] = bbox_float[2]
+        self.state[3, 0] = bbox_float[3]
 
         # Basic constant velocity model
         self._initialize_kalman_filter()
@@ -85,9 +96,9 @@ class SORTKalmanBoxTracker:
         Predict the next state of the bounding box (applies the state transition).
         """
         # Predict state
-        self.state = self.F @ self.state
+        self.state = (self.F @ self.state).astype(np.float32)
         # Predict error covariance
-        self.P = self.F @ self.P @ self.F.T + self.Q
+        self.P = (self.F @ self.P @ self.F.T + self.Q).astype(np.float32)
 
         # Increase time since update
         self.time_since_update += 1
@@ -104,32 +115,28 @@ class SORTKalmanBoxTracker:
 
         # Kalman Gain
         S = self.H @ self.P @ self.H.T + self.R
-        K = self.P @ self.H.T @ np.linalg.inv(S)
+        K: NDArray[np.float32] = (self.P @ self.H.T @ np.linalg.inv(S)).astype(
+            np.float32
+        )
 
         # Residual
-        measurement = bbox.reshape((4, 1))
-        y = measurement - self.H @ self.state
+        measurement: NDArray[np.float32] = bbox.reshape((4, 1)).astype(np.float32)
+        y: NDArray[np.float32] = (
+            measurement - self.H @ self.state
+        )  # y should be float32 (4,1)
 
         # Update state
         self.state = (self.state + K @ y).astype(np.float32)
 
         # Update covariance
         identity_matrix = np.eye(8, dtype=np.float32)
-        self.P = (identity_matrix - K @ self.H) @ self.P
+        self.P = ((identity_matrix - K @ self.H) @ self.P).astype(np.float32)
 
     def get_state_bbox(self) -> np.ndarray:
         """
         Returns the current bounding box estimate from the state vector.
 
         Returns:
-            np.ndarray: The bounding box [x1, y1, x2, y2].
+            np.ndarray: The bounding box [x1, y1, x2, y2]
         """
-        return np.array(
-            [
-                self.state[0, 0],  # x1
-                self.state[1, 0],  # y1
-                self.state[2, 0],  # x2
-                self.state[3, 0],  # y2
-            ],
-            dtype=np.float32,
-        ).reshape(-1)
+        return self.state[:4, 0].flatten().astype(np.float32)
