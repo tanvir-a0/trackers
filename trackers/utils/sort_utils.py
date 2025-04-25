@@ -122,7 +122,6 @@ def update_detections_with_track_ids(
     for row, col in sorted_pairs:
         # Double check index is in range
         if row < len(trackers):
-            # Cast row to int to satisfy Sequence.__getitem__ type hint
             tracker_obj = trackers[int(row)]
             # Only assign if the track is "mature" or is new but has enough hits
             if (int(row) not in used_rows) and (int(col) not in used_cols):
