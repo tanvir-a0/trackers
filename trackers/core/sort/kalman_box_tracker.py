@@ -111,7 +111,7 @@ class SORTKalmanBoxTracker:
         y = measurement - self.H @ self.state
 
         # Update state
-        self.state = self.state + K @ y
+        self.state = (self.state + K @ y).astype(np.float32)
 
         # Update covariance
         identity_matrix = np.eye(8, dtype=np.float32)
@@ -126,10 +126,10 @@ class SORTKalmanBoxTracker:
         """
         return np.array(
             [
-                self.state[0],  # x1
-                self.state[1],  # y1
-                self.state[2],  # x2
-                self.state[3],  # y2
+                self.state[0, 0],  # x1
+                self.state[1, 0],  # y1
+                self.state[2, 0],  # x2
+                self.state[3, 0],  # y2
             ],
-            dtype=float,
+            dtype=np.float32,
         ).reshape(-1)
