@@ -78,6 +78,9 @@ class SORTTracker(BaseTracker):
         unmatched_detections = set(range(len(detection_boxes)))
 
         if len(self.trackers) > 0 and len(detection_boxes) > 0:
+            # Find optimal assignment using scipy.optimize.linear_sum_assignment.
+            # Note that it uses a a modified Jonker-Volgenant algorithm with no initialization
+            # instead of the Hungarian algorithm as mentioned in the SORT paper.
             row_indices, col_indices = linear_sum_assignment(iou_matrix, maximize=True)
             for row, col in zip(row_indices, col_indices):
                 if iou_matrix[row, col] >= self.minimum_iou_threshold:
