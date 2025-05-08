@@ -23,6 +23,7 @@ jobs:
         uses: astral-sh/setup-uv@6b9c6063abd6010835644d4c2e1bef4cf5cd0fca # v6.0.1
         with:
           python-version: ${{ matrix.python-version }}
+          activate-environment: true
           # TODO(https://github.com/astral-sh/setup-uv/issues/226): Remove this.
           prune-cache: ${{ matrix.os != 'windows-latest' }}
 
